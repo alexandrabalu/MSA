@@ -7,13 +7,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="#8c9eff"
+        android:background="#8cff"
         tools:context=".MainActivity">
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#8cffff"
+            android:background="#8cf"
             android:gravity="center"
             android:textColor="#ffff"
             android:text="2048"
@@ -30,10 +30,6 @@
             android:onClick="startGame"/>
 
 
-    <Button
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:text="Exit"/>
 
 
 </LinearLayout>
