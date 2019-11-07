@@ -1,12 +1,19 @@
 package com.example.alexandra.a2048game;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -17,7 +24,7 @@ public class Game extends AppCompatActivity
     TextView textView = null;
     int score = 0;
     int side = 4;
-    int[][] tiles = {{0,0,0,0},{0,0,0,0},{0,0,0,0 },{0,0,0,0 }};
+    int[][] tiles = {{0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}} ;
     Random rand = new Random();
 
 
@@ -25,34 +32,12 @@ public class Game extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
         textView = (TextView) findViewById(R.id.Score);
         grid = (GridView) findViewById(R.id.gridView);
 
         GameAdapter gameAdapter = new GameAdapter(this,tiles);
         grid.setAdapter(gameAdapter);
-
-        grid.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent event) {
-
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_SPACE))
-                {
-
-                    return true;
-
-                }
-
-                if ((event.getAction() == KeyEvent.ACTION_UP) && (i == KeyEvent.KEYCODE_SPACE))
-                {
-
-                    return true;
-
-                }
-
-                return false;
-            }
-        });
-
 
     }
 
@@ -70,9 +55,6 @@ public class Game extends AppCompatActivity
         tiles[row][col] = val;
     }
 
-    private void start()
-    {
 
-    }
 
 }
