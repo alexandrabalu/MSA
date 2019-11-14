@@ -4,24 +4,23 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
                                              android:id="@+id/wholelayout"
-                                             android:background="#00796b">
+                                             android:background="#8cf">
 
 
     <LinearLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#d7ccc8"
+            android:background="#8cf"
             android:gravity="center"
             android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Score:"
-                android:textAlignment="center"
-                app:cardBackgroundColor="#8cff" >
+                android:text="Score: "
+                >
             <TextView
                     android:layout_gravity="start"
                     android:textSize="15dp"
@@ -39,16 +38,18 @@
 
     <GridView
             android:id="@+id/gridView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:columnWidth="100dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="24dp"
-            android:horizontalSpacing="10dp"
-            android:stretchMode="spacingWidthUniform">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#8cf"
+            android:horizontalSpacing="5dp"
+            android:numColumns="4"
+            android:verticalSpacing="5dp"
+            app:layout_constraintStart_toEndOf="@id/linear"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear">
+
     </GridView>
 
 </android.support.constraint.ConstraintLayout>
-
-
