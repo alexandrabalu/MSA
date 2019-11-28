@@ -57,6 +57,7 @@ public class Game extends AppCompatActivity
 
                     if( i == KeyEvent.KEYCODE_DPAD_LEFT)
                     {
+                        titles = leftMove(titles);
                         int pos = pickRandom(titles);
                         titles[pos] = 2;
                         changeGrid(titles);
@@ -64,6 +65,7 @@ public class Game extends AppCompatActivity
 
                     if( i == KeyEvent.KEYCODE_DPAD_UP)
                     {
+                        titles = upMove(titles);
                         int pos = pickRandom(titles);
                         titles[pos] = 2;
                         changeGrid(titles);
@@ -71,6 +73,7 @@ public class Game extends AppCompatActivity
 
                     if( i == KeyEvent.KEYCODE_DPAD_DOWN)
                     {
+                        titles = downMove(titles);
                         int pos = pickRandom(titles);
                         titles[pos] = 2;
                         changeGrid(titles);
@@ -150,9 +153,9 @@ public class Game extends AppCompatActivity
 
     private int[][] rightMoveOnRow(int row, int[][] matrix)
     {
-        int side = 4;
+        int col = 4;
 
-        for (int i = 0 ; i < side - 1; i++)
+        for (int i = 0 ; i < col - 1; i++)
         {
             if(matrix[row][i] == matrix[row][i+1] || matrix[row][i+1] == 0)
             {
@@ -173,33 +176,155 @@ public class Game extends AppCompatActivity
         }
         return matrix;
     }
-    private void leftMove(Integer[] array)
+
+
+    private Integer[] leftMove(Integer[] array)
     {
         int[][] matrix = convertArray(array);
-        for(int i = 0; i < side; i++)
-            matrix = leftMoveOnRow(i,matrix);
+        int col = 4;
+        for(int i = 0 ; i < col; i++)
+            matrix = leftMoveOnRow(i, matrix);
 
+        return convertMatrix(matrix);
 
     }
 
     private int[][] leftMoveOnRow(int row, int[][] matrix)
     {
-        int side = 4;
-        for (int j = side - 2; j >=0; j-- )
+        int col = 4;
+
+        for (int i = col ; i > 1; i--)
         {
-            if(matrix[row][j] == matrix[row][j-1] || matrix[row][j-1] == 0)
+            if(matrix[row][i] == matrix[row][i-1] || matrix[row][i-1] == 0)
             {
-                matrix[row][j - 1] = matrix[row][j] + matrix[row][j - 1];
-                matrix[row][j] = matrix[row][j-1];
+
+                matrix[row][i-1] += matrix[row][i];
+                score = Math.max(score, matrix[row][i-1]);
+                if(i == col)
+                {
+                    matrix[row][i] = 0;
+                }
+                else
+                {
+                    matrix[row][i] = matrix[row][i+1]; // ar trebui sa se propage in lant.
+                }
+
             }
         }
         return matrix;
     }
 
+    private Integer[] upMove(Integer[] array)
+    {
+        int[][] matrix = convertArray(array);
+        int side = 4;
+        for(int i = 0 ; i < side; i++)
+            matrix = upMoveOnColumn(i, matrix);
+
+        return convertMatrix(matrix);
+
+    }
+
+    private int[][] upMoveOnColumn(int col, int[][] matrix)
+    {
+        int row = 4;
+
+        for (int i = row  ; i > 0; i--)
+        {
+            if(matrix[i][col] == matrix[i-1][col] || matrix[i-1][col] == 0)
+            {
+
+                matrix[i-1][col] += matrix[i][col];
+                score = Math.max(score, matrix[i-1][col]);
+
+                if(i == row)
+                {
+                    matrix[i][col] = 0;
+                }
+                else
+                {
+                    matrix[i][col] = matrix[i+1][col]; // ar trebui sa se propage in lant.
+                }
+
+            }
+        }
+        return matrix;
+    }
+
+    private Integer[] downMove(Integer[] array)
+    {
+        int[][] matrix = convertArray(array);
+        int side = 4;
+        for(int i = 0 ; i < side; i++)
+            matrix = downMoveOnColumn(i, matrix);
+
+        return convertMatrix(matrix);
+
+    }
+
+    private int[][] downMoveOnColumn(int col, int[][] matrix)
+    {
+        int row = 4;
+
+        for (int i = 0  ; i < row - 1; i++)
+        {
+            if(matrix[i][col] == matrix[i+1][col] || matrix[i+1][col] == 0)
+            {
+
+                matrix[i+1][col] += matrix[i][col];
+                score = Math.max(score, matrix[i-1][col]);
+
+                if(i == 0)
+                {
+                    matrix[i][col] = 0;
+                }
+                else
+                {
+                    matrix[i][col] = matrix[i-1][col]; // ar trebui sa se propage in lant.
+                }
+
+            }
+        }
+        return matrix;
+    }
+
+    private boolean isFull(int[][] matrix)
+    {
+        for(int i = 0 ; i < side; i++)
+        {
+            for(int j = 0 ; j < side ; j++)
+            {
+                if(matrix[i][j] == 0)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
     public void changeGrid(Integer[] titls)
     {
-        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titls);
-        grid.setAdapter(arrayAdapter);
+        if((score != 2048) || !isFull(convertArray(titls)) ) {
+            ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titls);
+            grid.setAdapter(arrayAdapter);
+        }
+        else
+        {
+            String[] array  = new String[1];
+
+            if(score == 2048)
+            {
+                array[0] = "CONGRATULATION !! YOU WON";
+            }
+
+            else
+            {
+                array[0] = "OOPS !! YOU LOST :( ";
+            }
+
+
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, array);
+        }
     }
 {
 
