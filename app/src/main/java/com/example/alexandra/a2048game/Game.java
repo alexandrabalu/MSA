@@ -50,34 +50,39 @@ public class Game extends AppCompatActivity
                     if( i == KeyEvent.KEYCODE_DPAD_RIGHT)
                     {
                         titles = rightMove(titles);
-                        int pos = pickRandom(titles);
-                        titles[pos] = 2;
-                        changeGrid(titles);
+
+                        display(titles);
                     }
 
                     if( i == KeyEvent.KEYCODE_DPAD_LEFT)
                     {
                         titles = leftMove(titles);
-                        int pos = pickRandom(titles);
-                        titles[pos] = 2;
-                        changeGrid(titles);
+//                        int pos = pickRandom(titles);
+//                        titles[pos] = 2;
+//                        changeGrid(titles);
+//
+                        display(titles);
+
                     }
 
                     if( i == KeyEvent.KEYCODE_DPAD_UP)
                     {
                         titles = upMove(titles);
-                        int pos = pickRandom(titles);
-                        titles[pos] = 2;
-                        changeGrid(titles);
+//                        int pos = pickRandom(titles);
+//                        titles[pos] = 2;
+//                        changeGrid(titles);
+                        display(titles);
                     }
 
                     if( i == KeyEvent.KEYCODE_DPAD_DOWN)
                     {
                         titles = downMove(titles);
-                        int pos = pickRandom(titles);
-                        titles[pos] = 2;
-                        changeGrid(titles);
+//                        int pos = pickRandom(titles);
+//                        titles[pos] = 2;
+//                        changeGrid(titles);
+                        display(titles);
                     }
+
                 }
                 return false;
             }
@@ -143,8 +148,8 @@ public class Game extends AppCompatActivity
     private Integer[] rightMove(Integer[] array)
     {
         int[][] matrix = convertArray(array);
-        int side = 4;
-        for(int i = 0 ; i < side; i++)
+        int row = 4;
+        for(int i = 0 ; i < row; i++)
             matrix = rightMoveOnRow(i, matrix);
 
         return convertMatrix(matrix);
@@ -193,14 +198,14 @@ public class Game extends AppCompatActivity
     {
         int col = 4;
 
-        for (int i = col ; i > 1; i--)
+        for (int i = col - 1 ; i > 0; i--)
         {
             if(matrix[row][i] == matrix[row][i-1] || matrix[row][i-1] == 0)
             {
 
                 matrix[row][i-1] += matrix[row][i];
                 score = Math.max(score, matrix[row][i-1]);
-                if(i == col)
+                if(i == col - 1)
                 {
                     matrix[row][i] = 0;
                 }
@@ -229,7 +234,7 @@ public class Game extends AppCompatActivity
     {
         int row = 4;
 
-        for (int i = row  ; i > 0; i--)
+        for (int i = row - 1  ; i > 0; i--)
         {
             if(matrix[i][col] == matrix[i-1][col] || matrix[i-1][col] == 0)
             {
@@ -237,7 +242,7 @@ public class Game extends AppCompatActivity
                 matrix[i-1][col] += matrix[i][col];
                 score = Math.max(score, matrix[i-1][col]);
 
-                if(i == row)
+                if(i == row - 1)
                 {
                     matrix[i][col] = 0;
                 }
@@ -272,7 +277,7 @@ public class Game extends AppCompatActivity
             {
 
                 matrix[i+1][col] += matrix[i][col];
-                score = Math.max(score, matrix[i-1][col]);
+                score = Math.max(score, matrix[i+1][col]);
 
                 if(i == 0)
                 {
@@ -288,47 +293,45 @@ public class Game extends AppCompatActivity
         return matrix;
     }
 
-    private boolean isFull(int[][] matrix)
+    private boolean isFull(Integer[] array)
     {
-        for(int i = 0 ; i < side; i++)
+        for(int i = 0 ; i < array.length; i++)
         {
-            for(int j = 0 ; j < side ; j++)
-            {
-                if(matrix[i][j] == 0)
-                    return false;
-            }
+            if(array[i] == 0 )
+                return false;
         }
 
         return true;
     }
 
-    public void changeGrid(Integer[] titls)
+    private void display(Integer[] tiles)
     {
-        if((score != 2048) || !isFull(convertArray(titls)) ) {
-            ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titls);
-            grid.setAdapter(arrayAdapter);
+        if( score == 2048)
+        {
+            String[] results = { "Congratulation !! You won!"};
+            changeGrid(results);
+        }
+        if(!isFull(titles))
+        {
+            int pos = pickRandom(titles);
+            titles[pos] = 2;
+            changeGrid(titles);
         }
         else
         {
-            String[] array  = new String[1];
+            String[] results = { "OPSS ! YOU LOST "};
+            changeGrid(results);
 
-            if(score == 2048)
-            {
-                array[0] = "CONGRATULATION !! YOU WON";
-            }
-
-            else
-            {
-                array[0] = "OOPS !! YOU LOST :( ";
-            }
-
-
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, array);
         }
     }
-{
 
-}
+    public void changeGrid(Object[] titls)
+    {
+            ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titls);
+            grid.setAdapter(arrayAdapter);
+
+
+    }
 
 
 }
