@@ -3,34 +3,37 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_gravity="center"
         android:background="#8cff"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        android:layout_width="match_parent">
+
 
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#8cf"
             android:gravity="center"
             android:textColor="#ffff"
             android:text="2048"
             android:textAlignment="center"
-            android:textSize="50sp"
+            android:textSize="45sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
 
     <Button
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:background="#8cf"
             android:text="Start"
-            android:onClick="startGame"/>
-
-
-
-
+            android:textColor="#ffff"
+            android:textAlignment="center"
+            android:onClick="startGame"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"/>
 </LinearLayout>

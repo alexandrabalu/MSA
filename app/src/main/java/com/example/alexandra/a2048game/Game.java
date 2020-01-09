@@ -1,20 +1,14 @@
 package com.example.alexandra.a2048game;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.List;
 import java.util.Random;
 
 
@@ -22,7 +16,7 @@ public class Game extends AppCompatActivity
 {
 
     GridView grid = null;
-    TextView textView = null;
+    TextView scoreTextView = null;
     int score = 0;
     int side = 4;
     Integer[] titles = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -34,13 +28,13 @@ public class Game extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        textView = (TextView) findViewById(R.id.Score);
+        scoreTextView = (TextView) findViewById(R.id.Score);
         grid = (GridView) findViewById(R.id.gridView);
 
         int pos = pickRandom(titles);
         titles[pos] = 2;
 
-        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titles);
+        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, titles);
         grid.setAdapter(arrayAdapter);
 
         grid.setOnKeyListener(new View.OnKeyListener() {
@@ -51,17 +45,13 @@ public class Game extends AppCompatActivity
                     if( i == KeyEvent.KEYCODE_DPAD_RIGHT)
                     {
                         titles = rightMove(titles);
-
                         display(titles);
+
                     }
 
                     if( i == KeyEvent.KEYCODE_DPAD_LEFT)
                     {
                         titles = leftMove(titles);
-//                        int pos = pickRandom(titles);
-//                        titles[pos] = 2;
-//                        changeGrid(titles);
-//
                         display(titles);
 
                     }
@@ -69,18 +59,12 @@ public class Game extends AppCompatActivity
                     if( i == KeyEvent.KEYCODE_DPAD_UP)
                     {
                         titles = upMove(titles);
-//                        int pos = pickRandom(titles);
-//                        titles[pos] = 2;
-//                        changeGrid(titles);
                         display(titles);
                     }
 
                     if( i == KeyEvent.KEYCODE_DPAD_DOWN)
                     {
                         titles = downMove(titles);
-//                        int pos = pickRandom(titles);
-//                        titles[pos] = 2;
-//                        changeGrid(titles);
                         display(titles);
                     }
 
@@ -174,6 +158,7 @@ public class Game extends AppCompatActivity
 
                 matrix[row][i+1] += matrix[row][i];
                 score = Math.max(score, matrix[row][i+1]);
+                System.out.println(score);
 
                 if(i == 0)
                 {
@@ -315,28 +300,28 @@ public class Game extends AppCompatActivity
     {
         if( score == 2048)
         {
-            String[] results = { "Congratulation !! You won!"};
-            changeGrid(results);
+              setContentView(R.layout.activity_result_win);
+
         }
-        if(!isFull(titles))
+
+        else if(!isFull(titles))
         {
             int pos = pickRandom(titles);
             titles[pos] = 2;
+//         scoreTextView.setText(score);            // nu merge si nu stiu de ce
             changeGrid(titles);
         }
         else
         {
-            String[] results = { "OPSS ! YOU LOST "};
-            changeGrid(results);
+            setContentView(R.layout.activity_result_lose);
 
         }
     }
 
     public void changeGrid(Object[] titls)
     {
-            ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titls);
+            ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, titls);
             grid.setAdapter(arrayAdapter);
-
 
     }
 
